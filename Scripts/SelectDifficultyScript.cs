@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SelectDifficultyScript : MonoBehaviour
 {
-    public Text difficultyText;
-    public Slider difficultySlider;
-    public Color orange;
-    public void setDifficultyText()
+    [SerializeField] private Text difficultyText;
+    [SerializeField] private Slider difficultySlider;
+    [SerializeField] private Color orange;
+
+    private string selectedDifficulty;
+
+    private const string DIFFICULTY_SELECTED = "DifficultySelected";
+    
+    public void SetDifficultyText()
     {
         float value = difficultySlider.value;
         if (value == 0)
@@ -32,10 +36,12 @@ public class SelectDifficultyScript : MonoBehaviour
             difficultyText.color = Color.red;
             difficultyText.text = "Impossible";
         }
+        selectedDifficulty = difficultyText.text;
+        SaveDifficultyText();
     }
 
-    public void openSinglePlayer()
+    public void SaveDifficultyText()
     {
-        SceneManager.LoadScene("SinglePlayerScene");
+        PlayerPrefs.SetString(DIFFICULTY_SELECTED, selectedDifficulty);
     }
 }
